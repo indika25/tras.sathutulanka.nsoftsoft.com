@@ -524,13 +524,8 @@
                         </div>
 
                         <div class="modal-body">
-                            <!-- Input fields -->
-                            <div class="form-group">
-                                <label for="levelValue">Today Fuel Price (1L)</label>
-                                <input type="number" step="0.1" class="form-control" id="levelValue" name="level_value"
-                                    required>
-                            </div>
-                            <div class="form-group">
+
+                          <div class="form-group">
                                 <label for="levelLabel">Standard Fuel Type (e.g: Octane 92)</label>
                                 <select class="form-control" id="levelLabel" name="label" required>
                                     <option value="">-- Select Fuel Type --</option>
@@ -545,6 +540,13 @@
                                 </select>
 
                             </div>
+                            <!-- Input fields -->
+                            <div class="form-group">
+                                <label for="levelValue">Today Fuel Price (1L)</label>
+                                <input type="number" step="0.1" class="form-control" id="levelValue" name="level_value"
+                                    required>
+                            </div>
+                          
 
                             <!-- Buttons before table, aligned to right -->
                             <div class="d-flex justify-content-end mb-3">
@@ -1130,9 +1132,8 @@
                     type: 'GET',
                     dataSrc: 'data'
                 },
-                columns: [{
-                        data: 'id'
-                    },
+                columns: [
+                    { data: 'id',visible:false},
                     {
                         data: 'level_value'
                     },
@@ -1145,7 +1146,7 @@
                             return `
                     <div class="btn-group">
                         <button class="btn btn-sm btn-primary editOilBtn" data-id="${row.id}">Edit</button>
-                        <button class="btn btn-sm btn-danger deleteOilBtn" data-id="${row.id}">Delete</button>
+                      
                     </div>
                 `;
                         }
@@ -1194,6 +1195,7 @@
             // Open modal
             $j('#addoils').on('click', function() {
                 $('#oilLevelForm').trigger('reset').removeData('edit-id');
+                $('#levelLabel').prop('disabled', false);
                 $('#oilLevelModal').modal('show');
             });
 
@@ -1283,35 +1285,36 @@
                         $(this).prop('selected', true);
                     }
                 });
+    $('#levelLabel').prop('disabled', true);
 
                 $('#oilLevelForm').data('edit-id', rowData.id);
             });
 
 
             // Delete handler
-            $('#oilLevelsTable').on('click', '.deleteOilBtn', function() {
-                let id = $(this).data('id');
-                Swal.fire({
-                    title: 'Delete?',
-                    text: 'Are you sure you want to delete this Diesel Level?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Yes, delete'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.post('<?= base_url("RentVehicle/delete_oil_level") ?>', {
-                            id: id
-                        }, function(response) {
-                            if (response.status === 'success') {
-                                Swal.fire('Deleted!', response.message, 'success');
-                                oilTable.ajax.reload(null, false);
-                            } else {
-                                Swal.fire('Error', response.message, 'error');
-                            }
-                        }, 'json');
-                    }
-                });
-            });
+            // $('#oilLevelsTable').on('click', '.deleteOilBtn', function() {
+            //     let id = $(this).data('id');
+            //     Swal.fire({
+            //         title: 'Delete?',
+            //         text: 'Are you sure you want to delete this Diesel Level?',
+            //         icon: 'warning',
+            //         showCancelButton: true,
+            //         confirmButtonText: 'Yes, delete'
+            //     }).then((result) => {
+            //         if (result.isConfirmed) {
+            //             $.post('<?= base_url("RentVehicle/delete_oil_level") ?>', {
+            //                 id: id
+            //             }, function(response) {
+            //                 if (response.status === 'success') {
+            //                     Swal.fire('Deleted!', response.message, 'success');
+            //                     oilTable.ajax.reload(null, false);
+            //                 } else {
+            //                     Swal.fire('Error', response.message, 'error');
+            //                 }
+            //             }, 'json');
+            //         }
+            //     });
+            // });
 
             $('input[name="duration"]').on('input', function() {
                 const vehicleId = $('#vehicle_id').val();

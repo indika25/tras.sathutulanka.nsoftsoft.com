@@ -88,7 +88,7 @@
     <th>Number</th>
     <th>Fuel Type</th>
     <th>Seats</th>
-    <th>Status</th>
+    <th>Liters per KM</th>
     <th>Category</th>
     <th>Options</th>
 </tr>
