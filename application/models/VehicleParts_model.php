@@ -251,8 +251,7 @@ public function getAverageFuelData($vehicleNum, $startDate, $endDate, $hireNo)
         (IFNULL(he.Amount,0) / NULLIF(vr.oillevel,0)) * vd.status AS planned_km,
 
         vr.Difference_Milage AS gone_km,
-        vr.Difference_Milage - 
-        ((IFNULL(he.Amount,0) / NULLIF(vr.oillevel,0)) * vd.status) AS profit_km
+        ((IFNULL(he.Amount,0) / NULLIF(vr.oillevel,0)) * vd.status - vr.Difference_Milage) AS profit_km
     ");
 
     $this->db->from('vehicle_rentals vr');

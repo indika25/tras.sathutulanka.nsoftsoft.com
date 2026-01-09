@@ -153,6 +153,7 @@
                         <tfoot>
                             <tr>
                                 <th colspan="5" class="text-right">Total :</th>
+                                <th class="text-right"></th> <!-- Milage -->
                                 <th class="text-right"></th> <!-- Driver Salary -->
                                 <th class="text-right"></th> <!-- Total Cost -->
                                 <th class="text-right"></th> <!-- Hire Payment -->
@@ -353,47 +354,56 @@
 
 
             ],
-            footerCallback: function(row, data, start, end, display) {
-                let api = this.api();
+          footerCallback: function (row, data, start, end, display) {
+    let api = this.api();
 
-                let driverSalaryTotal = 0;
-                let totalCostTotal = 0;
-                let hirePaymentTotal = 0;
-                let profitTotal = 0;
+    let mileageTotal = 0;
+    let driverSalaryTotal = 0;
+    let totalCostTotal = 0;
+    let hirePaymentTotal = 0;
+    let profitTotal = 0;
 
-                data.forEach(function(row) {
+    data.forEach(function (row) {
 
-                    const rentAmount = parseFloat(row.rent_amount) || 0;
-                    const expenses = parseFloat(row.total_expenses) || 0;
-                    const percent = parseFloat(row.salary_percent) || 0;
-                    const parking = parseFloat(row.parking_highway_expenses) || 0;
+        // Milage
+        const mileage = parseFloat(row.total_mileage) || 0;
+        mileageTotal += mileage;
 
-                    // Driver Salary
-                    const netSalary = (rentAmount - parking) * (percent / 100);
-                    driverSalaryTotal += netSalary;
+        // Amounts
+        const rentAmount = parseFloat(row.rent_amount) || 0;
+        const expenses = parseFloat(row.total_expenses) || 0;
+        const percent = parseFloat(row.salary_percent) || 0;
+        const parking = parseFloat(row.parking_highway_expenses) || 0;
 
-                    // Total Cost (expenses + driver salary)
-                    totalCostTotal += expenses + netSalary;
+        // Driver Salary
+        const netSalary = (rentAmount - parking) * (percent / 100);
+        driverSalaryTotal += netSalary;
 
-                    // Hire Payment
-                    hirePaymentTotal += rentAmount;
+        // Total Cost (expenses + driver salary)
+        totalCostTotal += expenses + netSalary;
 
-                    // Profit
-                    profitTotal += (rentAmount - expenses - netSalary);
-                });
+        // Hire Payment
+        hirePaymentTotal += rentAmount;
 
-                // Helper formatter
-                const format = v => v.toLocaleString(undefined, {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                });
+        // Profit
+        profitTotal += (rentAmount - expenses - netSalary);
+    });
 
-                // Set footer values (column indexes)
-                $(api.column(5).footer()).html(format(driverSalaryTotal));
-                $(api.column(6).footer()).html(format(totalCostTotal));
-                $(api.column(7).footer()).html(format(hirePaymentTotal));
-                $(api.column(8).footer()).html(format(profitTotal));
-            }
+    const format = value =>
+        value.toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+
+    // ✅ Footer values
+    $(api.column(4).footer()).html(format(mileageTotal) + ' KM');   // Milage
+    $(api.column(5).footer()).html(format(driverSalaryTotal));     // Driver Salary
+    $(api.column(6).footer()).html(format(totalCostTotal));        // Total Cost
+    $(api.column(7).footer()).html(format(hirePaymentTotal));      // Hire Payment
+    $(api.column(8).footer()).html(format(profitTotal));           // Profit
+}
+
+
 
 
 

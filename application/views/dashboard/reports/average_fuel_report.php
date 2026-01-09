@@ -79,7 +79,7 @@
                                 <th>Pumped Liters</th>
                                 <th>Planned Km</th>
                                 <th>Gone Km</th>
-                                <th>Profited Km</th>
+                                <th>Available Km</th>
                             </tr>
                         </thead>
                     </table>
