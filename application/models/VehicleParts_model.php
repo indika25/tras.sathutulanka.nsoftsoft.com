@@ -242,12 +242,11 @@ public function getAverageFuelData($vehicleNum, $startDate, $endDate, $hireNo)
    
 
     $this->db->select("
-        vr.vehicle_number,
+         vd.Vehicle_Num AS vehicle_number,
         vr.HireNo,
-
         vr.oillevel AS liter_price,
         vd.status AS liter_per_km,
- he.Amount AS pumped_amount,
+        he.Amount AS pumped_amount,
         IFNULL(he.Amount,0) / NULLIF(vr.oillevel,0) AS pumped_liters,
         (IFNULL(he.Amount,0) / NULLIF(vr.oillevel,0)) * vd.status AS planned_km,
 
