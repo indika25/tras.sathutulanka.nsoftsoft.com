@@ -320,9 +320,18 @@ select.find('option:not(:first)').remove();
             success: function (response) {
                 if (response.status === 'success') {
                     const data = response.data;
-                  console.log(data);
+                   
+                   
+                    
+
                     $j('[name="Vehicle_Make"]').val(data.Vehicle_Make);
-                    $j('[name="Vehicle_model"]').val(data.Vehicle_Model);
+                    //load models to make
+                  
+                    $('#vehicle_model').html('<option value="">-- Select Model --</option>');
+
+                    loadModelToMake(data);
+
+                   
                     $j('[name="Chassis_No"]').val(data.Chassis_No);
                     $j('[name="Vehicle_Num"]').val(data.Vehicle_Num);
                     $j('[name="Fuel_Type"]').val(data.Fuel_Type);
@@ -338,6 +347,8 @@ select.find('option:not(:first)').remove();
                         $j('#vehicleForm').append(`<input type="hidden" name="idvehicledetails" value="${data.idvehicledetails}">`);
                     }
                     $j('#vehicleModal').modal('show');
+
+
                     // $j('#vehicleSubmitBtn').text('Update Vehicle');
                 } else {
                     Swal.fire({
@@ -359,6 +370,31 @@ select.find('option:not(:first)').remove();
         });
     });
 
+    function loadModelToMake(data){
+        
+        
+         $.ajax({
+                url: BASE_URL + 'VehicleModel/loadmodels/' + data.Vehicle_Make,
+                type: 'GET',
+                dataType: 'json',
+                success: function (models) {
+                    $.each(models, function (index, model) {
+                        $('#vehicle_model').append(
+                            $('<option>', {
+                                value: model.model_id,
+                                text: model.model
+                            })
+                        );
+                    });
+                
+        
+                     $j('[name="Vehicle_model"]').val(data.Vehicle_Model);
+                },
+                error: function () {
+                    alert('Failed to load models');
+                }
+            });
+    }
  $('#addRateToTable').on('click', function () {
     var id = $('#rateId').val();  // <-- get hidden id input
     var vehicleNumber = $('#vehicleNumberRate').val();
@@ -615,7 +651,7 @@ $('#btn_addModel').on('click', function () {
         });
     });
 
-    // On Vehicle Make Change
+    
     $('#vehicleMake').on('change', function () {
         var makeId = $(this).val();
         $('#vehicle_model').html('<option value="">-- Select Model --</option>');

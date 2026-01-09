@@ -80,7 +80,7 @@
                         <th>Customer Name</th>
                         <th>Address</th>
                         <th>Mobile</th>
-                        <th>Emergency Phone</th>
+                        <th>Remarks</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -140,8 +140,8 @@
                     </div>
 
                     <div class="col-md-3 mb-3">
-                        <label>Emergency Contact</label>
-                        <input type="text" name="phone" class="form-control" placeholder="EX: 0785092933">
+                        <label>REMARKS</label>
+                        <input type="text" name="phone" class="form-control" placeholder="">
                     </div>
 
                   

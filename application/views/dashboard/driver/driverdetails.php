@@ -164,16 +164,9 @@
                 <tr>
                     <th>ID</th>
                     <th>Full Name</th>
-                    <!-- <th>Last Name</th> -->
-                    <!-- <th>Date of Birth</th> -->
-                    <!-- <th>Gender</th> -->
-                    <!-- <th>License Number</th>
-                    <th>License Issue Date</th>
-                    <th>License Expiry Date</th> -->
                     <th>Contact Number</th>
-                    <!-- <th>National ID</th> -->
-                    <!-- <th>Address</th> -->
                     <th>Salary Percent</th>
+                    <th>Status</th>
                     <th>Options</th>
                 </tr>
             </thead>
@@ -400,6 +393,8 @@ $j('#driverTable').DataTable({
         { data: 1}, 
         { data: 10 }, 
         { data: 16 }, 
+        { data: 14 }, 
+        
               {
             data: null,
             orderable: false,
