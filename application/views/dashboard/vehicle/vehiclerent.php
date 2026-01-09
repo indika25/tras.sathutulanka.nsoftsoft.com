@@ -560,8 +560,9 @@
                                     <thead>
                                         <tr>
                                             <th>ID</th>
+                                             <th>Fuel Type</th>
                                             <th>Fuel Price</th>
-                                            <th>Fuel Type</th>
+                                           
                                             <th>Options</th>
                                         </tr>
                                     </thead>
@@ -1134,11 +1135,12 @@
                 },
                 columns: [
                     { data: 'id',visible:false},
-                    {
-                        data: 'level_value'
-                    },
+                    
                     {
                         data: 'label'
+                    },
+                    {
+                        data: 'level_value'
                     },
                     {
                         data: null,
