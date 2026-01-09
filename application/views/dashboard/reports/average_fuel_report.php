@@ -74,7 +74,7 @@
                                 <th>Vehicle No</th>
                                 <th>Hire No</th>
                                 <th>Liter Price</th>
-                                <th>Liter / Km</th>
+                                <th>Km Per 1L</th>
                                 <th>Pumped Amount</th>
                                 <th>Pumped Liters</th>
                                 <th>Planned Km</th>
