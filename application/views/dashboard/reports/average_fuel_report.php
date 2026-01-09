@@ -39,7 +39,7 @@
                 <div class="form-group mr-3 mb-2">
                     <label class="mr-2">Vehicle</label>
                     <select id="vehicle_num" class="form-control">
-                        <option value="" selected hidden>Select Vehicle</option>
+                       
                     </select>
                 </div>
 
@@ -96,6 +96,9 @@
 
         /* ---------------- LOAD VEHICLES ---------------- */
         $j.getJSON("<?= base_url('VehicleParts/get_vehicles_ajax') ?>", function(res) {
+            // First, clear existing options and add the default
+            $j('#vehicle_num').empty().append('<option value="">-Select All-</option>');
+
             if (res.data) {
                 res.data.forEach(v => {
                     $j('#vehicle_num').append(
@@ -104,6 +107,7 @@
                 });
             }
         });
+
 
         /* ---------------- DATATABLE ---------------- */
         var table = $j('#averageFuelTable').DataTable({
@@ -144,9 +148,11 @@
                     }
                 },
 
-                 { data:'pumped_amount', className:'text-right',
-              render:d => parseFloat(d || 0).toFixed(2)
-            },
+                {
+                    data: 'pumped_amount',
+                    className: 'text-right',
+                    render: d => parseFloat(d || 0).toFixed(2)
+                },
                 {
                     data: 'pumped_liters',
                     className: 'text-right',

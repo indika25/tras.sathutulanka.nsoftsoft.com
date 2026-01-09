@@ -128,26 +128,37 @@ var $j = jQuery.noConflict();
 $j(document).ready(function(){
 
     // LOAD VEHICLE DROPDOWN
-    $j.ajax({
-        url: '<?php echo base_url("Vehicle/get_vehicles_ajax"); ?>',
-        type: 'GET',
-        dataType: 'json',
-        success: function(response){
-            if(response.data && Array.isArray(response.data)){
-                let select = $j('#vehicle_num');
-                select.find('option:not(:first)').remove();
-                let addedIds = new Set();
-                $j.each(response.data,function(i,vehicle){
-                    let id = vehicle[0];
-                    let vehicleNum = vehicle[4];
-                    if(!addedIds.has(id)){
-                        select.append(`<option value="${id}">${vehicleNum}</option>`);
-                        addedIds.add(id);
-                    }
-                });
-            }
+  $j.ajax({
+    url: '<?php echo base_url("Vehicle/get_vehicles_ajax"); ?>',
+    type: 'GET',
+    dataType: 'json',
+    success: function(response){
+        if(response.data && Array.isArray(response.data)){
+            let select = $j('#vehicle_num');
+            
+            // Clear existing options and add the first two fixed options
+            select.empty()
+                .append('<option value="">-- Select All --</option>')
+                .append('<option value="carrental">Car Rental</option>');
+
+            let addedIds = new Set(); // To track unique vehicle IDs
+
+            $j.each(response.data, function(i, vehicle){
+                let id = vehicle[0];         // Vehicle ID
+                let vehicleNum = vehicle[4]; // Vehicle Number
+
+                if(!addedIds.has(id)){
+                    select.append(`<option value="${id}">${vehicleNum}</option>`);
+                    addedIds.add(id);
+                }
+            });
         }
-    });
+    },
+    error: function(xhr, status, error){
+        console.error('Error loading vehicles:', error);
+    }
+});
+
 
     // RENTED VEHICLES DATATABLE
     var rentedTable = $j('#rentedVehiclesTable').DataTable({

@@ -227,32 +227,35 @@ $j('#printBtn').on('click', function() {
 });
 
   $j.ajax({
-            url: '<?php echo base_url("Vehicle/get_vehicles_ajax"); ?>',
-            type: 'GET',
-            dataType: 'json',
-            success: function (response) {
-                console.log(response);
-                if (response.data && Array.isArray(response.data)) {
-                    let select = $j('select[name="vehicle_num"]');
-                    select.find('option:not(:first)').remove();
+    url: '<?php echo base_url("Vehicle/get_vehicles_ajax"); ?>',
+    type: 'GET',
+    dataType: 'json',
+    success: function (response) {
+        console.log(response);
+        if (response.data && Array.isArray(response.data)) {
+            let select = $j('select[name="vehicle_num"]');
+            
+            // Clear existing options and add "-Select All-"
+              select.empty().append('<option value="">-Select All-</option>');
 
-                    let addedIds = new Set(); // To track unique vehicle IDs
+            let addedIds = new Set(); // To track unique vehicle IDs
 
-                    $j.each(response.data, function (index, vehicle) {
-                        let id = vehicle[0];         // Vehicle ID
-                        let vehicleNum = vehicle[4]; // Vehicle Number
+            $j.each(response.data, function (index, vehicle) {
+                let id = vehicle[0];         // Vehicle ID
+                let vehicleNum = vehicle[4]; // Vehicle Number
 
-                        if (!addedIds.has(id)) {
-                            select.append(`<option value="${id}">${vehicleNum}</option>`);
-                            addedIds.add(id);
-                        }
-                    });
+                if (!addedIds.has(id)) {
+                    select.append(`<option value="${id}">${vehicleNum}</option>`);
+                    addedIds.add(id);
                 }
-            },
-            error: function (xhr, status, error) {
-                console.error('Error loading vehicles:', error);
-            }
-        });
+            });
+        }
+    },
+    error: function (xhr, status, error) {
+        console.error('Error loading vehicles:', error);
+    }
+});
+
          
 
 

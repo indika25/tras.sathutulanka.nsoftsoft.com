@@ -37,7 +37,7 @@ public function get_all_damageparts2($vehicleNum = null, $startDate = null, $end
     $this->db->join('driver d', 'd.id = dp.Driver', 'left');
     $this->db->join('vehicledetails v', 'v.idvehicledetails = dp.vehicle_num', 'left');
 
-    // Apply filters if provided
+   
     if(!empty($vehicleNum)) {
         $this->db->where('v.idvehicledetails', $vehicleNum);
     }

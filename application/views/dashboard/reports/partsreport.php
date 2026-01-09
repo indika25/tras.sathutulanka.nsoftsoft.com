@@ -273,32 +273,40 @@ $j('#printBtn').on('click', function() {
 
 
   $j.ajax({
-            url: '<?php echo base_url("Vehicle/get_vehicles_ajax"); ?>',
-            type: 'GET',
-            dataType: 'json',
-            success: function (response) {
-                console.log(response);
-                if (response.data && Array.isArray(response.data)) {
-                    let select = $j('select[name="vehicle_num"]');
-                    select.find('option:not(:first)').remove();
-
-                    let addedIds = new Set(); // To track unique vehicle IDs
-
-                    $j.each(response.data, function (index, vehicle) {
-                        let id = vehicle[0];         // Vehicle ID
-                        let vehicleNum = vehicle[4]; // Vehicle Number
-
-                        if (!addedIds.has(id)) {
-                            select.append(`<option value="${id}">${vehicleNum}</option>`);
-                            addedIds.add(id);
-                        }
-                    });
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error('Error loading vehicles:', error);
+    url: '<?php echo base_url("Vehicle/get_vehicles_ajax"); ?>',
+    type: 'GET',
+    dataType: 'json',
+    success: function (response) {
+        console.log(response);
+        if (response.data && Array.isArray(response.data)) {
+            let select = $j('select[name="vehicle_num"]');
+            
+            // Clear all options except the first, or set the first option as "-- Select All --"
+            select.find('option:not(:first)').remove();
+            if (select.find('option:first').length === 0) {
+                select.prepend('<option value="">-- Select All --</option>');
+            } else {
+                select.find('option:first').text('-- Select All --').val('');
             }
-        });
+
+            let addedIds = new Set(); // To track unique vehicle IDs
+
+            $j.each(response.data, function (index, vehicle) {
+                let id = vehicle[0];         // Vehicle ID
+                let vehicleNum = vehicle[4]; // Vehicle Number
+
+                if (!addedIds.has(id)) {
+                    select.append(`<option value="${id}">${vehicleNum}</option>`);
+                    addedIds.add(id);
+                }
+            });
+        }
+    },
+    error: function (xhr, status, error) {
+        console.error('Error loading vehicles:', error);
+    }
+});
+
          
 
 

@@ -239,6 +239,8 @@ public function getAverageFuelFromRentals($filters = []) {
 
 public function getAverageFuelData($vehicleNum, $startDate, $endDate, $hireNo)
 {
+   
+
     $this->db->select("
         vr.vehicle_number,
         vr.HireNo,
@@ -268,8 +270,7 @@ public function getAverageFuelData($vehicleNum, $startDate, $endDate, $hireNo)
         'LEFT'
     );
 
-    /* ---------------- FILTERS ---------------- */
-
+   
     // ✅ Vehicle filter
     if (!empty($vehicleNum)) {
         $this->db->where('vr.vehicle_number', $vehicleNum);

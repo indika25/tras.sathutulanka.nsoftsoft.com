@@ -97,7 +97,7 @@
                 <div class="form-group mr-3 mb-2">
                     <label for="vehicleNumber" class="mr-2">Vehicle Number:</label>
                     <select id="vehicle_num" name="vehicle_num" class="form-control">
-                        <option value="">- All Vehicles -</option>
+                        <option value="">- Select All -</option>
                     </select>
                 </div>
 

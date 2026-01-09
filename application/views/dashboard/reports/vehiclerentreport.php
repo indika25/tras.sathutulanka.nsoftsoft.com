@@ -764,33 +764,38 @@
         });
 
 
-        $j.ajax({
-            url: '<?php echo base_url("Vehicle/get_vehicles_ajax"); ?>',
-            type: 'GET',
-            dataType: 'json',
-            success: function(response) {
+      $j.ajax({
+    url: '<?php echo base_url("Vehicle/get_vehicles_ajax"); ?>',
+    type: 'GET',
+    dataType: 'json',
+    success: function(response) {
 
-                if (response.data && Array.isArray(response.data)) {
-                    let select = $j('select[name="vehicle_num"]');
-                    select.find('option:not(:first)').remove();
+        if (response.data && Array.isArray(response.data)) {
+            let select = $j('select[name="vehicle_num"]');
 
-                    let addedIds = new Set();
+            // Clear existing options and add first two fixed options
+            select.empty()
+                  .append('<option value="">-- Select All --</option>')
+                  .append('<option value="carrental">Car Rental</option>');
 
-                    $j.each(response.data, function(index, vehicle) {
-                        let id = vehicle[0];
-                        let vehicleNum = vehicle[4];
+            let addedIds = new Set();
 
-                        if (!addedIds.has(id)) {
-                            select.append(`<option value="${id}">${vehicleNum}</option>`);
-                            addedIds.add(id);
-                        }
-                    });
+            $j.each(response.data, function(index, vehicle) {
+                let id = vehicle[0];
+                let vehicleNum = vehicle[4];
+
+                if (!addedIds.has(id)) {
+                    select.append(`<option value="${id}">${vehicleNum}</option>`);
+                    addedIds.add(id);
                 }
-            },
-            error: function(xhr, status, error) {
-                console.error('Error loading vehicles:', error);
-            }
-        });
+            });
+        }
+    },
+    error: function(xhr, status, error) {
+        console.error('Error loading vehicles:', error);
+    }
+});
+
 
 
 
