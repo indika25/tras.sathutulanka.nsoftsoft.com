@@ -131,7 +131,7 @@
                                 <th>Start Date</th>
                                 <th>Hire Distance (Km)</th>
                                 <th>Start Mileage (Km)</th>
-                                <th>Diesel (L)</th>
+                                <th>Fuel Price Per 1L</th>
                                 <th>Amount</th>
                                 <th>Driver</th>
                                 <th>Remarks</th>
@@ -398,10 +398,12 @@
 
 
         <!-- Expense Modal -->
-        <div class="modal fade" id="expenseModal" tabindex="-1" role="dialog" aria-labelledby="expenseModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
+      <div class="modal fade" id="expenseModal" tabindex="-1" role="dialog"
+     aria-labelledby="expenseModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+
 
                     <div class="modal-header">
                         <h5 class="modal-title" id="expenseModalLabel">Add Expense</h5>
@@ -598,6 +600,8 @@
                 responsive: true,
                 searchable: true,
                 autoWidth: false,
+                 pageLength: 5,               
+    lengthMenu: [5, 10, 25, 50],  
                 ajax: {
                     url: '<?= base_url("RentVehicle/fetchExpenses") ?>',
                     type: 'POST',
