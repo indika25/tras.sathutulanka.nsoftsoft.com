@@ -33,7 +33,19 @@
         border-radius: 0;
     }
 
-   
+    #materialUnit {
+        width: 100% !important;
+        /* full width of td */
+        max-width: 150px;
+        /* max width you want */
+    }
+
+    /* Make Qty input wider */
+    #materialQty {
+        width: 100% !important;
+        max-width: 100px;
+        /* adjust as needed */
+    }
 
     #partsTable th,
     #partsTable td {
@@ -135,7 +147,7 @@
 
 
 
-       
+        <!-- 🚗 Vehicle Rent Modal -->
         <div class="modal fade" id="rentVehicleModal" tabindex="-1" role="dialog"
             aria-labelledby="rentVehicleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl" role="document">
@@ -206,7 +218,12 @@
                             </div>
                             <div class="col-md-3 mb-3">
                                 <label>Hire Start Location</label>
-                            
+                                <!-- <div class="input-group">
+    <select id="hire_start_location" name="hire_start_location" class="form-control" required>
+      <option value="">Select Hire Start Location</option>
+    </select>
+  
+         </div> -->
                                 <input type="text" name="hire_start_location" class="form-control"
                                     style="text-transform: uppercase;" required>
 
@@ -214,18 +231,23 @@
 
                             <div class="col-md-3 mb-3">
                                 <label>Hire End Location</label>
-                           
+                                <!-- <div class="input-group">
+    <select id="hire_end_location" name="hire_end_location" class="form-control" required>
+      <option value="">Select Hire End Location</option>
+    </select>
+  
+         </div> -->
                                 <input type="text" name="hire_end_location" class="form-control"
                                     style="text-transform: uppercase;">
 
                             </div>
                             <div class="col-md-3 mb-3">
                                 <label>Hire Starting Mileage (Km)</label>
-                                <input type="number"  step="any" name="mileage" class="form-control" required>
+                                <input type="number" name="mileage" class="form-control" required>
                             </div>
                             <div class="col-md-3 mb-3">
                                 <label>Hire End Mileage (Km)</label>
-                                <input type="number"  step="any" name="endmileage" class="form-control">
+                                <input type="number" name="endmileage" class="form-control">
                             </div>
                             <div class="col-md-3 mb-3">
                                 <label>Difference Mileage (Km)</label>
@@ -248,7 +270,7 @@
                             <div class="col-md-3 mb-3">
                                 <label>Hire Duration (KM)</label>
                                 <div class="input-group">
-                                    <input type="number" step="any" id="duration" name="duration" class="form-control">
+                                    <input type="number" id="duration" name="duration" class="form-control">
 
                                 </div>
                             </div>
@@ -264,43 +286,49 @@
 
 
 
-                      <div class="col-md-6 mb-3">
+                            <div class="col-md-3 mb-3">
                                 <div class="input-group">
                                     <table class="table table-bordered table-sm align-middle" id="materialTable">
                                         <thead class="table-light">
                                             <tr>
-                                                <th>Material</th>
-                                                <th>Unit</th>
-                                                <th>Unit Price</th>
-                                                <th>Quantity</th>
-                                                <th>Amount</th>
-                                                <th>Action</th>
+                                                <th style="width: 40%;">Material</th>
+                                                <th style="width: 30%;">Unit</th>
+                                                <th style="width: 30%;">Quantity</th>
+                                                <th style="width: 30%;">Amount</th>
+                                                <th style="width: 20%;">Action</th>
                                             </tr>
                                         </thead>
-                                        <tbody id="materialBody"></tbody>
+                                        <tbody id="materialBody">
+
+                                        </tbody>
                                         <tfoot>
                                             <tr>
-                                                <td><input type="text" id="materialName" class="form-control"
-                                                        placeholder="Name" /></td>
+                                                <td>
+                                                    <input type="text" id="materialName" class="form-control"
+                                                        placeholder="Name" style="width: 80px;" />
+                                                </td>
                                                 <td>
                                                     <select name="materialUnit" id="materialUnit"
-                                                        class="form-control form-select-sm">
+                                                        class="form-control form-select-sm" style="width: 100px;">
                                                         <option value="">Unit</option>
                                                     </select>
                                                 </td>
-                                                <td><input type="number" id="unitPrice" class="form-control"
-                                                        placeholder="Unit Price" min="1" /></td>
-                                                <td><input type="number" id="materialQty" class="form-control"
-                                                        placeholder="Qty" min="1" /></td>
-                                                <td><input type="number" id="materialAmount" class="form-control"
-                                                        placeholder="Amount" min="1" /></td>
                                                 <td>
+                                                    <input type="number" id="materialQty" class="form-control"
+                                                        placeholder="Qty" min="1" style="width: 80px;" />
+                                                </td>
+                                                <td>
+                                                    <input type="number" id="materialAmount" class="form-control"
+                                                        placeholder="Amount" min="1" style="width: 80px;" />
+                                                </td>
+                                                <td class="text-center">
                                                     <button type="button" id="addMaterialBtn"
-                                                        class="btn btn-success btn-sm">
+                                                        class="btn btn-success btn-sm" title="Add Material">
                                                         <i class="fas fa-plus"></i>
                                                     </button>
                                                 </td>
                                             </tr>
+
                                         </tfoot>
                                     </table>
                                 </div>
@@ -310,7 +338,7 @@
 
 
 
-                            <div class="col-md-6 mb-3 text-end">
+                            <div class="col-md-6 mb-3" style="margin-left:100px">
                                 <div class="input-group">
                                     <table class="table table-bordered table-sm align-middle" id="expenseTable">
                                         <thead class="table-light">
@@ -347,7 +375,12 @@
                                 </div>
                             </div>
 
-                           
+                            <!-- 
+<div class="col-md-3 mb-3">
+        <label>Driver Salary</label>
+        <input type="text" name="remarks" class="form-control">
+    </div> -->
+
 
                         </div>
 
@@ -365,11 +398,11 @@
 
 
         <!-- Expense Modal -->
-        <div class="modal fade" id="expenseModal" tabindex="-1" role="dialog" aria-labelledby="expenseModalLabel"
-            aria-hidden="true">
+      <div class="modal fade" id="expenseModal" tabindex="-1" role="dialog"
+     aria-labelledby="expenseModalLabel" aria-hidden="true">
 
-            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                <div class="modal-content">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
 
 
                     <div class="modal-header">
@@ -494,7 +527,7 @@
 
                         <div class="modal-body">
 
-                            <div class="form-group">
+                          <div class="form-group">
                                 <label for="levelLabel">Standard Fuel Type (e.g: Octane 92)</label>
                                 <select class="form-control" id="levelLabel" name="label" required>
                                     <option value="">-- Select Fuel Type --</option>
@@ -515,7 +548,7 @@
                                 <input type="number" step="0.1" class="form-control" id="levelValue" name="level_value"
                                     required>
                             </div>
-
+                          
 
                             <!-- Buttons before table, aligned to right -->
                             <div class="d-flex justify-content-end mb-3">
@@ -529,9 +562,9 @@
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Fuel Type</th>
+                                             <th>Fuel Type</th>
                                             <th>Fuel Price</th>
-
+                                           
                                             <th>Options</th>
                                         </tr>
                                     </thead>
@@ -567,8 +600,8 @@
                 responsive: true,
                 searchable: true,
                 autoWidth: false,
-                pageLength: 5,
-                lengthMenu: [5, 10, 25, 50],
+                 pageLength: 5,               
+    lengthMenu: [5, 10, 25, 50],  
                 ajax: {
                     url: '<?= base_url("RentVehicle/fetchExpenses") ?>',
                     type: 'POST',
@@ -801,19 +834,18 @@
             ///////////
 
 
-            $j(document).on('input', 'input[name="mileage"], input[name="endmileage"]', function () {
-    let start = parseFloat($j('input[name="mileage"]').val()) || 0;
-    let end   = parseFloat($j('input[name="endmileage"]').val()) || 0;
+            $j(document).on('input', 'input[name="mileage"], input[name="endmileage"]', function() {
+                let start = parseFloat($j('input[name="mileage"]').val());
+                let end = parseFloat($j('input[name="endmileage"]').val());
 
-    let difference = end - start;
-
-    // round to 2 decimals
-    difference = Math.round(difference * 100) / 100;
-
-    console.log('Mileage Difference:', difference);
-    $j('#differencemileage').val(difference.toFixed(2));
-});
-
+                if (!isNaN(start) && !isNaN(end)) {
+                    let difference = end - start;
+                    console.log('Mileage Difference:', difference); // Do what you want with this value
+                    // Example: update another field or element
+                    $j('#differencemileage').val(
+                        difference); // if you have a <span id="mileageDifference">
+                }
+            });
             $j('#addExpenses').on('click', function() {
                 $('#expenseForm')[0].reset();
                 $('#expenseModal').modal('dispose'); // Dispose old instance
@@ -823,9 +855,6 @@
             $j('#addMaterialBtn').on('click', function() {
                 let name = $j('#materialName').val().trim();
                 let unit = $j('#materialUnit option:selected').text();
-                let unitPrice = parseFloat($j('#unitPrice').val());
-
-
                 let qty = $j('#materialQty').val();
                 let amount = $j('#materialAmount').val();
 
@@ -838,7 +867,6 @@
         <tr>
           <td>${name}</td>
           <td>${unit}</td>
-          <td>${unitPrice}</td>
           <td>${qty}</td>
           <td>${amount}</td>
           <td class="text-center">
@@ -856,29 +884,17 @@
                 $j('#materialName').val('');
                 $j('#materialUnit').val('');
                 $j('#materialQty').val('');
-                $j('#unitPrice').val('');
                 $j('#materialAmount').val('');
             });
 
-function recalcTotal() {
-    let sum = 0;
-    $j('#materialBody tr').each(function() {
-        let amt = parseFloat($j(this).find('td:eq(4)').text()) || 0;
-        sum += amt;
-    });
-    total = sum;
-    $j('input[name="rent_amount"]').val(total.toFixed(2));
-}
 
             // Use event delegation for dynamically added buttons
             $j('#materialBody').on('click', '.removeMaterialBtn', function() {
-            
                 let row = $j(this).closest('tr');
-                let amount = parseFloat(row.find('td:eq(4)').text()) || 0;
+                let amount = parseFloat(row.find('td:eq(3)').text()) || 0;
                 total -= amount;
                 $j('input[name="rent_amount"]').val(total);
                 $j(this).closest('tr').remove();
-                recalcTotal();
             });
 
             function loadMaxHireNo() {
@@ -930,7 +946,6 @@ function recalcTotal() {
                                 // Reset form & remove edit id
                                 $('#addLocationForm').trigger('reset');
                                 $('#addLocationForm').removeData('edit-id');
-total = 0;
 
                                 // ✅ Proper way to hide modal
                                 $('#addLocationModal').modal('hide');
@@ -993,11 +1008,7 @@ total = 0;
                 ajax: {
                     url: '<?php echo base_url("RentVehicle/getAllrent"); ?>',
                     type: 'POST',
-                    dataSrc: function (json) {
-        console.log('Full AJAX response:', json);   // 🔥 HERE
-        console.log('Table data only:', json.data); // 🔥 HERE
-        return json.data;
-    },
+                    dataSrc: 'data',
                     error: function(xhr, error, thrown) {
                         console.error('AJAX Error:', xhr.responseText);
                         Swal.fire({
@@ -1030,7 +1041,7 @@ total = 0;
                         data: 'duration'
                     },
                     {
-                        data: 'Start_Milage'
+                        data: 'mileage'
                     },
                     {
                         data: 'oillevel'
@@ -1126,11 +1137,9 @@ total = 0;
                     type: 'GET',
                     dataSrc: 'data'
                 },
-                columns: [{
-                        data: 'id',
-                        visible: false
-                    },
-
+                columns: [
+                    { data: 'id',visible:false},
+                    
                     {
                         data: 'label'
                     },
@@ -1282,7 +1291,7 @@ total = 0;
                         $(this).prop('selected', true);
                     }
                 });
-                $('#levelLabel').prop('disabled', true);
+    $('#levelLabel').prop('disabled', true);
 
                 $('#oilLevelForm').data('edit-id', rowData.id);
             });
@@ -1418,15 +1427,15 @@ total = 0;
                 $j('#materialBody tr').each(function() {
                     const name = $j(this).find('td:eq(0)').text().trim();
                     const unit = $j(this).find('td:eq(1)').text().trim();
-                    const unitprice = $j(this).find('td:eq(2)').text().trim();
-                    const qty = parseInt($j(this).find('td:eq(3)').text().trim(), 10);
-                    const amount = parseFloat($j(this).find('td:eq(4)').text().trim(), 10);
+                    const qty = parseInt($j(this).find('td:eq(2)').text().trim(), 10);
+                    const amount = parseFloat($j(this).find('td:eq(3)').text().trim(), 10);
+
+
 
                     if (unit && !isNaN(qty)) {
                         materials.push({
                             name,
                             unit,
-                            unitprice,                            
                             qty,
                             amount
                         });
@@ -1480,7 +1489,7 @@ total = 0;
                             }).then(() => {
 
                                 form[0].reset();
-                                 loadMaxHireNo();
+
                                 $j('#materialBody').empty();
                                 $j('#expenseBody').empty();
                             });
@@ -1488,7 +1497,7 @@ total = 0;
                             table.ajax.reload(null, false);
 
                             $j('#rentVehicleModal input[name="id"]').val('');
-                           
+                            loadMaxHireNo();
                             $j('#vehicleRentForm [name="id"]').val('');
                             $j('#showamount').text('');
                         } else if (response.status === 'error') {
@@ -1516,18 +1525,6 @@ total = 0;
             });
 
 
- $('#unitPrice, #materialQty').on('input', function() {
-        // Get current values
-        var price = parseFloat($('#unitPrice').val()) || 0;
-        var qty   = parseFloat($('#materialQty').val()) || 0;
-
-        // Calculate amount
-        var amount = price * qty;
-
-        // Update Amount field
-        $('#materialAmount').val(amount.toFixed(2));
-    });
-
             $j('#duration').on('input', function() {
                 var duration = parseFloat($j(this).val()) || 0; // get typed value or 0 if empty/invalid
                 var amount = parseFloat($j('#showamount').text()) || 0; // get amount from label
@@ -1540,10 +1537,9 @@ total = 0;
             // Edit Rent button handler
             $j('#partsTable tbody').on('click', '.editRentBtn', function() {
                 $j('#vehicleRentForm')[0].reset();
-              
                 let rowData = table.row($j(this).parents('tr')).data();
                 $j('#vehicleRentForm [name="id"]').val(rowData.id);
-                $j('#vehicleRentForm [name="mileage"]').val(rowData.Start_Milage);
+                $j('#vehicleRentForm [name="mileage"]').val(rowData.mileage);
                 $j('#vehicleRentForm [name="hireno"]').val(rowData.HireNo);
 
                 // For Vehicle
@@ -1732,10 +1728,7 @@ total = 0;
       <tr>
         <td>${item.Name ?? '-'}</td>
         <td>${item.Unit}</td>
-        <td>${item.UnitPrice}</td>        
         <td>${item.Qty}</td>
-        <td>${item.Amount}</td>
-        
         <td class="text-center">
           <button type="button" class="btn btn-danger btn-sm removeMaterialBtn">
             <i class="fas fa-trash-alt"></i>

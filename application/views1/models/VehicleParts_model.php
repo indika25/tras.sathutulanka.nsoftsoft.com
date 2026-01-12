@@ -31,20 +31,19 @@ public function getFilteredParts($filters = []) {
 
     // Date filters on created_at
     if (!empty($filters['startDate']) && !empty($filters['endDate'])) {
-        $this->db->where('DATE(vp.installdate) >=', $filters['startDate']);
-        $this->db->where('DATE(vp.installdate) <=', $filters['endDate']);
+        $this->db->where('DATE(vp.created_at) >=', $filters['startDate']);
+        $this->db->where('DATE(vp.created_at) <=', $filters['endDate']);
     } elseif (!empty($filters['startDate'])) {
         // Exact match if only one date is given
-        $this->db->where('DATE(vp.installdate)', $filters['startDate']);
+        $this->db->where('DATE(vp.created_at)', $filters['startDate']);
     } elseif (!empty($filters['endDate'])) {
         // Exact match if only end date given
-        $this->db->where('DATE(vp.installdate)', $filters['endDate']);
+        $this->db->where('DATE(vp.created_at)', $filters['endDate']);
     }
 
     $query = $this->db->get();
     return $query->result_array();
 }
-
 public function getRentedVehicles($filters = []) {
     $this->db->select('
         vr.HireNo,
@@ -142,156 +141,58 @@ public function getAverageFuelFromRentals($filters = []) {
     return $results;
 }
 
-
-
-    // public function getAverageFuelReport($filters)
-    // {
-    //     $this->db->select("
-    //         vr.vehicle_number,
-    //         vr.HireNo,
-    //         vr.oillevel                         AS liter_price,
-    //         vd.status                           AS liter_per_km,
-    //         vr.Difference_Milage               AS gone_km,
-
-    //         IFNULL(SUM(
-    //             CASE 
-    //                 WHEN he.ExpenseName = 6 THEN he.Amount 
-    //                 ELSE 0 
-    //             END
-    //         ),0) AS pumped_amount
-    //     ");
-
-    //     $this->db->from('vehicle_rentals vr');
-
-    //     $this->db->join(
-    //         'vehicledetails vd',
-    //         'vd.idvehicledetails = vr.vehicle_number',
-    //         'LEFT'
-    //     );
-
-    //     $this->db->join(
-    //         'hirenoexpenses he',
-    //         'he.HireNo = vr.HireNo',
-    //         'LEFT'
-    //     );
-
-    //     // 🔹 Filters
-    //     if (!empty($filters['vehicleNum'])) {
-    //         $this->db->where('vr.vehicle_number', $filters['vehicleNum']);
-    //     }
-
-    //     if (!empty($filters['hireNo'])) {
-    //         $this->db->where('vr.HireNo', $filters['hireNo']);
-    //     }
-
-    //     if (!empty($filters['startDate'])) {
-    //         $this->db->where('vr.RentalDate >=', $filters['startDate']);
-    //     }
-
-    //     if (!empty($filters['endDate'])) {
-    //         $this->db->where('vr.RentalDate <=', $filters['endDate']);
-    //     }
-
-    //     $this->db->group_by('vr.HireNo');
-
-    //     $query = $this->db->get()->result_array();
-
-    //     // 🔹 Calculations
-    //     foreach ($query as &$r) {
-
-    //         $literPrice  = (float)$r['liter_price'];
-    //         $literPerKm  = (float)$r['liter_per_km'];
-    //         $pumpedAmt   = (float)$r['pumped_amount'];
-    //         $goneKm      = (float)$r['gone_km'];
-
-    //         $pumpedLiters = $literPrice > 0 ? ($pumpedAmt / $literPrice) : 0;
-    //         $plannedKm    = $pumpedLiters * $literPerKm;
-    //         $profitKm     = $goneKm - $plannedKm;
-
-    //         $r['pumped_liters'] = round($pumpedLiters, 2);
-    //         $r['planned_km']    = round($plannedKm, 2);
-    //         $r['profit_km']     = round($profitKm, 2);
-    //     }
-
-    //     return $query;
-    // }
-
-     // Get all active vehicles
-    public function get_vehicles() {
-        return $this->db->select('*')
-                        ->from('vehicledetails')
-                        ->get()
-                        ->result();
-    }
-
-    // Get Hire Nos filtered by vehicle and optional date
-    public function get_hireNos($vehicleNum = '', $startDate = '', $endDate = '') {
-        $this->db->select('vr.HireNo');
-        $this->db->from('vehicle_rentals vr');
-
-        if($vehicleNum != '') $this->db->where('vr.vehicle_number', $vehicleNum);
-        if($startDate != '')  $this->db->where('vr.rent_start_date >=', $startDate);
-        if($endDate != '')    $this->db->where('vr.rent_start_date <=', $endDate);
-
-        $this->db->group_by('vr.HireNo');
-
-        return $this->db->get()->result();
-    }
-
-public function getAverageFuelData($vehicleNum, $startDate, $endDate, $hireNo)
+public function getAverageFuelReport($filters)
 {
-   
-
-    $this->db->select("
-         vd.Vehicle_Num AS vehicle_number,
+    $this->db->select('
+        vr.vehicle_number,
         vr.HireNo,
-        vr.oillevel AS liter_price,
-        vd.status AS liter_per_km,
-        he.Amount AS pumped_amount,
-        IFNULL(he.Amount,0) / NULLIF(vr.oillevel,0) AS pumped_liters,
-        (IFNULL(he.Amount,0) / NULLIF(vr.oillevel,0)) * vd.status AS planned_km,
-
-        vr.Difference_Milage AS gone_km,
-        ((IFNULL(he.Amount,0) / NULLIF(vr.oillevel,0)) * vd.status - vr.Difference_Milage) AS profit_km
-    ");
-
+        vr.Difference_Milage AS km_gone,
+        CAST(vr.oillevel AS DECIMAL(10,2)) AS fuel_liters,
+        vd.status AS liter_per_km
+    ');
     $this->db->from('vehicle_rentals vr');
-
     $this->db->join(
         'vehicledetails vd',
         'vd.idvehicledetails = vr.vehicle_number',
-        'LEFT'
+        'left'
     );
 
-    $this->db->join(
-        'hirenoexpenses he',
-        "he.HireNo = vr.HireNo AND he.ExpenseName = 6",
-        'LEFT'
-    );
-
-   
-    // ✅ Vehicle filter
-    if (!empty($vehicleNum)) {
-        $this->db->where('vr.vehicle_number', $vehicleNum);
+    if (!empty($filters['vehicleNum'])) {
+        $this->db->where('vr.vehicle_number', $filters['vehicleNum']);
     }
 
-    // ✅ Date filter
-    if (!empty($startDate)) {
-        $this->db->where('vr.rent_start_date >=', $startDate);
+    if (!empty($filters['hireNo'])) {
+        $this->db->where('vr.HireNo', $filters['hireNo']);
     }
 
-    if (!empty($endDate)) {
-        $this->db->where('vr.rent_start_date <=', $endDate);
+    if (!empty($filters['startDate'])) {
+        $this->db->where('DATE(vr.rent_start_date) >=', $filters['startDate']);
     }
 
-    // ✅ Hire No filter
-    if (!empty($hireNo)) {
-        $this->db->where('vr.HireNo', $hireNo);
+    if (!empty($filters['endDate'])) {
+        $this->db->where('DATE(vr.rent_start_date) <=', $filters['endDate']);
     }
 
-    $query = $this->db->get();
-    return $query->result_array();
+    $rows = $this->db->get()->result_array();
+
+    foreach ($rows as &$r) {
+        $kmGone     = (float)$r['km_gone'];
+        $fuel       = (float)$r['fuel_liters'];
+        $literPerKm = (float)$r['liter_per_km'];
+
+       $average   = $fuel > 0 ? ($kmGone / $fuel) : 0;
+$plannedKm = $fuel * $literPerKm;
+$profit    = $average - $plannedKm;
+
+$r['average']    = round($average, 2);
+$r['planned_km'] = round($plannedKm, 2);
+$r['profit']     = round($profit, 2);
+
+    }
+
+    return $rows;
 }
+
 
 public function getDateWiseDetails($filters = [])
 {

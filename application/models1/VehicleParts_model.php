@@ -31,20 +31,19 @@ public function getFilteredParts($filters = []) {
 
     // Date filters on created_at
     if (!empty($filters['startDate']) && !empty($filters['endDate'])) {
-        $this->db->where('DATE(vp.installdate) >=', $filters['startDate']);
-        $this->db->where('DATE(vp.installdate) <=', $filters['endDate']);
+        $this->db->where('DATE(vp.created_at) >=', $filters['startDate']);
+        $this->db->where('DATE(vp.created_at) <=', $filters['endDate']);
     } elseif (!empty($filters['startDate'])) {
         // Exact match if only one date is given
-        $this->db->where('DATE(vp.installdate)', $filters['startDate']);
+        $this->db->where('DATE(vp.created_at)', $filters['startDate']);
     } elseif (!empty($filters['endDate'])) {
         // Exact match if only end date given
-        $this->db->where('DATE(vp.installdate)', $filters['endDate']);
+        $this->db->where('DATE(vp.created_at)', $filters['endDate']);
     }
 
     $query = $this->db->get();
     return $query->result_array();
 }
-
 public function getRentedVehicles($filters = []) {
     $this->db->select('
         vr.HireNo,
@@ -292,6 +291,7 @@ public function getAverageFuelData($vehicleNum, $startDate, $endDate, $hireNo)
     $query = $this->db->get();
     return $query->result_array();
 }
+
 
 public function getDateWiseDetails($filters = [])
 {
